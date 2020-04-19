@@ -1,40 +1,41 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  View,
-  Text
+  View
 } from 'react-native';
+import Svg, {
+  Path
+} from 'react-native-svg';
 
 
 import {vw} from "../utilities/Responsiveness";
 import {vh} from "../utilities/Responsiveness";
 
+
 class Icon extends Component {
   render(){
 
+    const styles = StyleSheet.create({
+      icon: {
+        backgroundColor: this.props.background,
+        borderRadius: this.props.radius,
+        padding: this.props.padding,
+        margin: this.props.margin,
+        width: this.props.width || vw(15),
+        height: this.props.height || vw(15)
+      }
+    });
+
     return (
-        <View style={styles.button}>
-            <Text style={styles.text}>{this.props.text}</Text>
+        <View style={styles.icon}>
+          <Svg viewBox="0 0 512 512">
+            <Path fill={this.props.fill} d={this.props.svg}/>
+          </Svg>
         </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-    icon: {
-    width: "100%",
-    backgroundColor: this.props.backgroundColor,
-    borderRadius: vw(3),
-    padding: vh(3.5),
-    margin: vh(0.8),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
-  text: {
-    fontSize: vw(8)
-  }
-});
 
 
 export default Icon;

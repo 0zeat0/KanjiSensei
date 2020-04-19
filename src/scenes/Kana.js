@@ -8,6 +8,8 @@ import {
 
 import {vw} from "../utilities/Responsiveness";
 
+import  TestSvg  from "../components/TestSvg";
+
 
 class Home extends Component {
   render(){
@@ -15,7 +17,8 @@ class Home extends Component {
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}>
-            <Text>Kana</Text>
+            {/* <Text>Kana</Text> */}
+            <TestSvg />
       </ScrollView>
     );
   }
