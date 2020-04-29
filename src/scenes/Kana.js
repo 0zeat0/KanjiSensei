@@ -1,46 +1,32 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  Text
+  ScrollView
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 
-import {vw} from "../utilities/Responsiveness";
+import {HiraganaIcon, KatakanaIcon} from '../../assets/Icons';
 
-import  TestSvg  from "../components/TestSvg";
+import Link from '../components/Link';
+import ScrollContainer from '../components/ScrollContainer';
+import AppContainer from '../components/AppContainer';
 
-
-class Home extends Component {
+class Kana extends Component {
   render(){
     return (
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContent}>
-            {/* <Text>Kana</Text> */}
-            <TestSvg />
-      </ScrollView>
+      <AppContainer>
+        <ScrollContainer>
+            <Link text="Hiragana" icon={HiraganaIcon()} background="#d9f0f0" color="#83a3a3" href={Actions.Hiragana}></Link>
+            <Link text="Katakana" icon={KatakanaIcon()} background="#daf0d9" color="#88ab87" href={Actions.Kana}></Link>
+        </ScrollContainer>
+      </AppContainer>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: "white",
-    borderTopLeftRadius: vw(7),
-    borderTopRightRadius: vw(7)
-  },
-  scrollViewContent: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    flexGrow: 1,
-    padding: vw(6)
-  }
-});
 
 
 
-
-export default Home;
+export default Kana;
 

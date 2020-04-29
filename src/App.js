@@ -7,7 +7,7 @@ import {
 import {Provider} from "react-redux";
 import { Scene, Router } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
-import StackViewStyleInterpolator from 'react-navigation-stack';
+
 import { Actions } from 'react-native-router-flux';
 
 
@@ -18,9 +18,13 @@ import {vw} from "./utilities/Responsiveness";
 import Store from "./Store";
 import Home from './scenes/Home';
 import Kana from './scenes/Kana';
+import Hiragana from './scenes/Hiragana';
+import KanaTestSelect from './scenes/KanaTestSelect';
+import KanaInfo from './scenes/KanaInfo';
 
 import Icon from "./components/Icon";
 import Button from "./components/Button";
+import Database from "./components/Database";
 
 import {LeftIcon} from '../assets/Icons';
 import {HomeIcon} from '../assets/Icons';
@@ -74,36 +78,65 @@ class App extends Component {
 
     return (
       <Provider store={Store}>
-        <LinearGradient colors={['#d7ece9', '#81ccc1', '#81ccc1', '#81ccc1', '#81ccc1', '#81ccc1']} style={styles.linearGradient}>
-          <Router sceneStyle={styles.router}>
-            <Scene 
-              key="root" 
-              headerLayoutPreset="center"
-              transitionConfig={transitionConfig}
-              init={true}
-              >
+        <Database>
+          <LinearGradient colors={['#d7ece9', '#81ccc1', '#81ccc1', '#81ccc1', '#81ccc1', '#81ccc1']} style={styles.linearGradient}>
+            <Router sceneStyle={styles.router}>
               <Scene 
-                    key="Home" 
-                    component={Home} 
-                    title="Test" 
-                    navigationBarStyle={styles.navBarHome} 
-                    titleStyle={styles.title} 
-                    navigationBarTitleImage={logo} 
-                    navigationBarTitleImageStyle={styles.logo} 
-                    init={true}
-              />
-              <Scene 
-                    key="Kana" 
-                    component={Kana} 
-                    title="Kana"  
+                key="root" 
+                headerLayoutPreset="center"
+                transitionConfig={transitionConfig}
+                init={true}
+                >
+                <Scene 
+                      key="Home" 
+                      component={Home} 
+                      title="Test" 
+                      navigationBarStyle={styles.navBarHome} 
+                      titleStyle={styles.title} 
+                      navigationBarTitleImage={logo} 
+                      navigationBarTitleImageStyle={styles.logo} 
+                      init={true}
+                />
+                <Scene 
+                      key="Kana" 
+                      component={Kana} 
+                      title="Kana"  
+                      navigationBarStyle={styles.navBar} 
+                      titleStyle={styles.title} 
+                      renderLeftButton={leftButton}
+                      renderRightButton={rightButton}
+                />
+                <Scene 
+                    key="Hiragana" 
+                    component={Hiragana} 
+                    title="Hiragana"  
                     navigationBarStyle={styles.navBar} 
                     titleStyle={styles.title} 
                     renderLeftButton={leftButton}
                     renderRightButton={rightButton}
-              />
-            </Scene>
-          </Router>
-        </LinearGradient>
+                />
+                <Scene 
+                    key="KanaTestSelect" 
+                    component={KanaTestSelect} 
+                    title="Select test"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={leftButton}
+                    renderRightButton={rightButton}
+                />
+                <Scene 
+                    key="KanaInfo" 
+                    component={KanaInfo} 
+                    title="Kana Info"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={leftButton}
+                    renderRightButton={rightButton}
+                />
+              </Scene>
+            </Router>
+          </LinearGradient>
+        </Database>
       </Provider>
     );
   }
@@ -129,7 +162,11 @@ const styles = StyleSheet.create({
     marginTop: vh(1)
   },
   title: {
-    fontSize: vh(4)
+    fontSize: vh(5),
+    color: "#4b4b4b",
+    fontFamily: "NotoSansJP-Regular",
+    lineHeight: vh(8),
+    letterSpacing: vw(-0.3)
   },
   logo: {
     resizeMode : "center"

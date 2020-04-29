@@ -46,7 +46,10 @@ const styles = StyleSheet.create({
     text: {
       fontSize: vw(7),
       marginLeft: vw(6),
-      color: "#4b4b4b"
+      color: "#4b4b4b",
+      fontFamily: "NotoSansJP-Regular",
+      lineHeight: vh(6),
+      letterSpacing: vw(-0.2)
     }
 });
 
