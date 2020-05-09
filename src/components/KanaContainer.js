@@ -23,7 +23,7 @@ class KanaContainer extends Component {
         numColumns={5}
         initialNumToRender={5}
         renderItem={({ item }) => <KanaItem  
-          key={item.data().romaji}
+          key={item.data().position}
           onPress={()=>{Actions.push("KanaInfo", {
             unicode: item.data().unicode,
             kana: item.data().type,
@@ -34,7 +34,7 @@ class KanaContainer extends Component {
           eng={item.data().romaji} 
           isEmpty={item.data().isEmpty} 
         />}
-        keyExtractor={item => item.data().romaji}
+        keyExtractor={item => item.data().position}
       />
     );
   }

@@ -1,8 +1,4 @@
 const DatabaseReducer = (state = {
-    Hiragana: {},
-    Katakana: {},
-    Kanji: {},
-    SVG: {},
     HiraganaLoaded: false,
     KatakanaLoaded: false,
     KanjiLoaded: false,

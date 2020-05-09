@@ -11,19 +11,19 @@ import {connect} from "react-redux";
 
 import {vw} from "../utilities/Responsiveness";
 
-import { hiraganaLoad } from "../actions/HiraganaActions";
+import { katakanaLoad } from "../actions/KatakanaActions";
 
 import KanaContainer from '../components/KanaContainer';
 import AppContainer from '../components/AppContainer';
 import KanaItem from '../components/KanaItem';
 import SquareButton from '../components/SquareButton';
 
-class Hiragana extends Component {
+class Katakana extends Component {
 
 
 
   componentDidMount(){
-    this.props.hiraganaLoad();
+    this.props.katakanaLoad();
   }
 
   componentWillUnmount(){
@@ -32,13 +32,12 @@ class Hiragana extends Component {
 
   
 
-
   render(){
   
       return (
         <AppContainer>
-          <KanaContainer data={this.props.Hiragana.docs} />
-          <SquareButton text="TEST" onPress={()=>{Actions.push("KanaTestSelect", {data: this.props.Hiragana.docs});}} />
+          <KanaContainer data={this.props.Katakana.docs} />
+          <SquareButton text="TEST" onPress={()=>{Actions.push("KanaTestSelect", {data: this.props.Katakana.docs});}} />
         </AppContainer>
       );
   }
@@ -49,17 +48,17 @@ class Hiragana extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    Hiragana: state.Hiragana.Data
+    Katakana: state.Katakana.Data
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hiraganaLoad: () => {
-      dispatch(hiraganaLoad());
+    katakanaLoad: () => {
+      dispatch(katakanaLoad());
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Hiragana);
+export default connect(mapStateToProps, mapDispatchToProps)(Katakana);
 

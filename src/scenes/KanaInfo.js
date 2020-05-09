@@ -17,7 +17,11 @@ import {PlayIcon, SoundIcon, CustomSetIcon} from '../../assets/Icons';
 
 
 import { kanaLoad } from "../actions/KanaInfoActions";
+import { kanaLoadData } from "../actions/KanaInfoActions";
+import { kanaClear } from "../actions/KanaInfoActions";
+import { otherKanaLoad } from "../actions/KanaInfoActions";
 import { svgLoad } from "../actions/KanaInfoActions";
+import { setUpdate } from "../actions/KanaInfoActions";
 
 import ScrollContainer from '../components/ScrollContainer';
 import AppContainer from '../components/AppContainer';
@@ -30,21 +34,85 @@ import thunk from 'redux-thunk';
 
 class KanaInfo extends Component {
 
-
   componentDidMount(){
+    
     //console.log(this.props);
-    this.props.kanaLoad(this.props.unicode, this.props.kana);
-    this.props.svgLoad(this.props.unicode);
-  }
+    //this.props.kanaClear();
+    //console.log(this.props);
+    //console.log("start");
+    //this.props.setNavigation(this.props.Navigation);
+    //this.props.kanaLoadData(this.props.unicode, this.props.kana);
 
-  componentWillUnmount(){
+   // console.log(this.props);
+   // this.props.kanaLoad(this.props.unicode, this.props.kana);
+    //this.props.svgLoad(this.props.unicode);
+
+    // let otherType = this.props.Kana.type=="hiragana"?"katakana":"hiragana";
+    // let otherUnicode = this.props.Kana.otherKana;
+    // this.props.otherKanaLoad(otherUnicode, otherType);
+
+    this.props.kanaLoadData(this.props.unicode, this.props.kana);
+    //this.props.setUpdate(true);
   
   }
 
 
+
+
+  componentWillUnmount(){
+    //console.log("unmount");
+
+    // setTimeout(() => {  
+    //   this.props.kanaClear();
+    // }, 1000);
+
+    this.props.kanaClear();
+  }
+
+
+
   componentDidUpdate(){
-    //console.log(this.props);
-    //console.log(this.props.SVG);
+
+
+
+
+
+    //console.log("update");
+//console.log(this.props);
+
+  //Actions.refresh();
+     
+
+
+    // setTimeout(()=>{
+
+      // if(this.props.shouldUpdate && !this.props.Kana){
+      //   this.props.kanaLoadData(this.props.unicode, this.props.kana);
+      // }
+
+      // }, 1000);
+
+
+
+    // if(!this.props.Kana){
+    //   this.props.kanaLoad(this.props.unicode, this.props.kana);
+    // }
+
+    // if(!this.props.SVG && this.props.Kana){
+    //   this.props.svgLoad(this.props.unicode);
+    // }
+
+
+    // if(this.props.Kana && (!this.props.OtherKana || this.props.OtherKana.type==this.props.Kana.type)){
+    //   let otherType = this.props.Kana.type=="hiragana"?"katakana":"hiragana";
+    //   let otherUnicode = this.props.Kana.otherKana;
+    //   this.props.otherKanaLoad(otherUnicode, otherType);
+    // }
+    
+
+  
+  
+
   }
 
 
@@ -58,14 +126,6 @@ class KanaInfo extends Component {
 
   }
 
-  displayAnimatedCharacter(svg){
-    console.log(svg);
-    if(this.props.SVG!=undefined){
-      return <AnimatedCharacter svg={svg} setPlay={play => this.playChild = play} />;
-    } else {
-      return null;
-    }
-  }
 
 
   render(){
@@ -81,11 +141,6 @@ class KanaInfo extends Component {
 
     // const originDoc = this.props[character.origin._documentPath._parts[0]].docs.find(element => element.data().unicode == character.origin._documentPath._parts[1]);
     // const origin = originDoc.data();
-
-
-  
-
-
 
      let characterDoc = null;
      let isFirst = true;
@@ -106,49 +161,91 @@ class KanaInfo extends Component {
       }
      }
 
-    return (
-      <AppContainer>
-      <ScrollContainer>
-        {!(Object.keys(this.props.SVG).length === 0 && this.props.SVG.constructor === Object)?<AnimatedCharacter svg={this.props.SVG} setPlay={play => this.playChild = play} />:null}
-        <View style={styles.RoundButtonsList}>
-          <RoundButton fill="#99c3c3" icon={SoundIcon()} onPress={() => {this.playSound(this.props.Kana.japanese);}} />  
-          <RoundButton fill="#abd9aa" icon={PlayIcon()} onPress={() => {this.playChild();}} />  
-          <RoundButton fill="#e1b6b6" icon={CustomSetIcon()} />  
-        </View>
-        <View style={styles.InfoList}>
-          <InfoItem text="Romaji:" value={this.props.Kana.romaji} isLink={false} />
-          <InfoItem text={this.props.Kana.type=="hiragana"?"Katakana:":"Hiragana:"} value={this.props.Kana.japanese} isLink={true} href={{ unicode:this.props.Kana.unicode, kana: this.props.Kana.type }} hasSound={true} isJapanese={true} />
-          <InfoItem text="Strokes:" value={this.props.Kana.strokes} isLink={false} />
-          <InfoItem text="Origin:" value={this.props.Kana.japanese} isLink={true} href={{ unicode:this.props.Kana.unicode, kana: this.props.Kana.type }} hasSound={true} isJapanese={true} />
-          <InfoItem text="Unicode:" value={this.props.Kana.unicode} isLink={false} />
-        </View> 
-      </ScrollContainer>
-      
 
-      {this.props.useNav == true &&
-        <View style={styles.SquareButtonsList}>
-        {!isFirst?<SquareButton shouldFlex={1} text="PREV" onPress={()=>{
-          Actions.pop();
-          Actions.push("KanaInfo", {
-            unicode: Prev.unicode, 
-            kana: Prev.type,
-            data: this.props.data,
-            useNav: true
-          });
-          }}  />:null}
-        {!isLast?<SquareButton shouldFlex={1} text="NEXT"onPress={()=>{
-          Actions.pop();
-          Actions.push("KanaInfo", {
-            unicode: Next.unicode, 
-            kana: Next.type,
-            data: this.props.data,
-            useNav: true
-          });
-          }}  />:null}
-      </View>
-      }
-    </AppContainer>
-    );
+     if(this.props.Kana){
+      return (
+        <AppContainer>
+        <ScrollContainer>
+          {this.props.SVG?<AnimatedCharacter svg={this.props.SVG} setPlay={play => this.playChild = play} />:null}
+          <View style={styles.RoundButtonsList}>
+            <RoundButton fill="#99c3c3" icon={SoundIcon()} onPress={() => {this.playSound(this.props.Kana.japanese);}} />  
+            <RoundButton fill="#abd9aa" icon={PlayIcon()} onPress={() => {this.playChild();}} />  
+            <RoundButton fill="#e1b6b6" icon={CustomSetIcon()} />  
+          </View>
+          <View style={styles.InfoList}>
+            <InfoItem text="Romaji:" value={this.props.Kana.romaji} isLink={false} />
+            {this.props.OtherKana?<InfoItem 
+                                    text={this.props.Kana.type=="hiragana"?"Katakana:":"Hiragana:"} 
+                                    value={this.props.OtherKana.japanese} 
+                                    isLink={true} 
+                                    onPress={()=>{ 
+                                      this.props.kanaClear();
+                                      //Actions.push("KanaInfo", {unicode: this.props.OtherKana.unicode, kana: this.props.OtherKana.type});
+                                      Actions.refresh({unicode: this.props.OtherKana.unicode, kana: this.props.OtherKana.type, useNav:false });
+                                      this.props.kanaLoadData(this.props.OtherKana.unicode, this.props.OtherKana.type);
+                                     } } 
+                                    hasSound={true} 
+                                    isJapanese={true} />:null}
+            <InfoItem text="Strokes:" value={this.props.Kana.strokes} isLink={false} />
+            {/* <InfoItem 
+              text="Origin:" 
+              value={this.props.Kana.japanese} 
+              isLink={true} 
+              onPress={()=>{ 
+                this.props.kanaClear();
+                //Actions.push("KanaInfo", {unicode: this.props.OtherKana.unicode, kana: this.props.OtherKana.type});
+                Actions.refresh({unicode: this.props.OtherKana.unicode, kana: this.props.OtherKana.type, useNav:false });
+                this.props.kanaLoadData(this.props.unicode, this.props.kana);
+                Actions.refresh({unicode: this.props.Kana.unicode, kana: this.props.Kana.type, data: this.props.data, useNav: true}); 
+              } } 
+              hasSound={true} 
+              isJapanese={true} /> */}
+            <InfoItem text="Unicode:" value={this.props.Kana.unicode} isLink={false} />
+          </View> 
+        </ScrollContainer>
+        
+  
+        {this.props.useNav == true &&
+          <View style={styles.SquareButtonsList}>
+          {!isFirst?<SquareButton shouldFlex={1} text="PREV" onPress={()=>{
+            //Actions.pop();
+            this.props.kanaClear();
+            Actions.refresh({
+              unicode: Prev.unicode, 
+              kana: Prev.type,
+              data: this.props.data,
+              useNav: true
+            });
+            this.props.kanaLoadData(Prev.unicode, Prev.type);
+            }}  />:null}
+          {!isLast?<SquareButton shouldFlex={1} text="NEXT"onPress={()=>{
+            //Actions.pop();
+            this.props.kanaClear();
+
+            Actions.refresh({
+              unicode: Next.unicode, 
+              kana: Next.type,
+              data: this.props.data,
+              useNav: true
+            });
+            this.props.kanaLoadData(Next.unicode, Next.type);
+            }}  />:null}
+        </View>
+        }
+      </AppContainer>
+      );
+
+     }else {
+      return (
+        <AppContainer>
+        </AppContainer>
+      );
+     }
+  
+
+
+
+
   }
 }
 
@@ -180,7 +277,9 @@ const styles = StyleSheet.create({
   const mapStateToProps = (state) => {
     return {
       Kana: state.KanaInfo.Kana,
-      SVG: state.KanaInfo.SVG
+      SVG: state.KanaInfo.SVG,
+      OtherKana: state.KanaInfo.OtherKana,
+      shouldUpdate: state.KanaInfo.shouldUpdate
     };
   };
 
@@ -190,8 +289,20 @@ const styles = StyleSheet.create({
       kanaLoad: (unicode, kana) => {
         dispatch(kanaLoad(unicode, kana));
       },
+      kanaLoadData: (unicode, kana) => {
+        dispatch(kanaLoadData(unicode, kana));
+      },
+      kanaClear: () => {
+        dispatch(kanaClear());
+      },
+      otherKanaLoad: (unicode, kana) => {
+        dispatch(otherKanaLoad(unicode, kana));
+      },
       svgLoad: (unicode) => {
         dispatch(svgLoad(unicode));
+      },
+      setUpdate: (update) => {
+        dispatch(setUpdate(update));
       }
     };
   };

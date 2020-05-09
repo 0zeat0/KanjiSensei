@@ -1,25 +1,31 @@
 import firestore from '@react-native-firebase/firestore';
 
 
-export function hiraganaLoad() {
+export function kanjiLoad(level, set) {
+    console.log(level, set);
     return dispatch => {
         firestore()
-        .collection('Hiragana')
+        .collection('Kanji')
+        .where('jlpt', '==', level).where('set', '==', set)
         .orderBy('position', 'asc')
         .onSnapshot((QuerySnapshot)=>{
             dispatch({
-                type: "HIRAGANA_LOAD",
+                type: "KANJI_LOAD",
                 payload: QuerySnapshot
             });
         }, (error)=>{
             console.log("Error:" + error);
             dispatch({
-                type: "HIRAGANA_LOAD",
-                payload: {}
+                type: "KANJI_LOAD",
+                payload: null
             });
         });
     };
 }
+
+
+
+
 
 
 

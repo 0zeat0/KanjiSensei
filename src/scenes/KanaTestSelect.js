@@ -22,8 +22,10 @@ class KanaTestSelect extends Component {
     return (
       <AppContainer>
       <ScrollContainer>
-          <Link text="Reading" icon={ReadingIcon()} background="#daf0d9" color="#8c9e8b" href={Actions.Hiragana}></Link>
-          <Link text="Writing" icon={WritingIcon()} background="#d9f0f0" color="#8a9a9a" href={Actions.Kana}></Link>
+          <Link text="Reading" icon={ReadingIcon()} background="#daf0d9" color="#8c9e8b" href={()=>{
+            Actions.push("KanaReadingTest", {data:this.props.data});
+          }}></Link>
+          {/* <Link text="Writing" icon={WritingIcon()} background="#d9f0f0" color="#8a9a9a" href={Actions.Kana}></Link> */}
       </ScrollContainer>
     </AppContainer>
     );

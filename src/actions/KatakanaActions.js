@@ -1,20 +1,20 @@
 import firestore from '@react-native-firebase/firestore';
 
 
-export function hiraganaLoad() {
+export function katakanaLoad() {
     return dispatch => {
         firestore()
-        .collection('Hiragana')
+        .collection('Katakana')
         .orderBy('position', 'asc')
         .onSnapshot((QuerySnapshot)=>{
             dispatch({
-                type: "HIRAGANA_LOAD",
+                type: "KATAKANA_LOAD",
                 payload: QuerySnapshot
             });
         }, (error)=>{
             console.log("Error:" + error);
             dispatch({
-                type: "HIRAGANA_LOAD",
+                type: "KATAKANA_LOAD",
                 payload: {}
             });
         });

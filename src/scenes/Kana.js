@@ -18,7 +18,7 @@ class Kana extends Component {
       <AppContainer>
         <ScrollContainer>
             <Link text="Hiragana" icon={HiraganaIcon()} background="#d9f0f0" color="#83a3a3" href={Actions.Hiragana}></Link>
-            <Link text="Katakana" icon={KatakanaIcon()} background="#daf0d9" color="#88ab87" href={Actions.Kana}></Link>
+            <Link text="Katakana" icon={KatakanaIcon()} background="#daf0d9" color="#88ab87" href={Actions.Katakana}></Link>
         </ScrollContainer>
       </AppContainer>
     );

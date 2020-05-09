@@ -8,6 +8,16 @@ import {
 
 import { Actions } from 'react-native-router-flux';
 
+
+
+
+import {connect} from "react-redux";
+
+
+import { kanaClear } from "../actions/KanaInfoActions";
+import { setNavigation } from "../actions/KanaInfoActions";
+
+
 import {vw} from "../utilities/Responsiveness";
 import {vh} from "../utilities/Responsiveness";
 
@@ -59,8 +69,7 @@ class InfoItem extends Component {
           <Text style={styles.text}>{this.props.text}</Text>
           <Button 
             isActive={this.props.isLink} 
-            onPress={()=>{Actions.push("KanaInfo", {unicode: this.props.href.unicode, kana: this.props.href.kana});}} 
-          >
+            onPress={this.props.onPress}>
             <Text style={styles.value}>{this.props.value}</Text>
           </Button>
         </View>
@@ -69,5 +78,9 @@ class InfoItem extends Component {
 }
 
 
+
+
 export default InfoItem;
+
+
 
