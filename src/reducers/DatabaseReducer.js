@@ -1,20 +1,18 @@
 const DatabaseReducer = (state = {
-    HiraganaLoaded: false,
-    KatakanaLoaded: false,
-    KanjiLoaded: false,
-    SVGLoaded: false
+    Loaded: false,
+    Connected: true
 }, action) => {
     switch (action.type) {
-        case "HIRAGANA_INIT":
+        case "DATABASE_SET_LOADED":
             state = {
                 ...state,
-                HiraganaLoaded: action.payload
+                Loaded: action.payload
             };
             break;
-        case "SVG_INIT":
+        case "DATABASE_SET_CONNECTED":
             state = {
                 ...state,
-                SVGLoaded: action.payload
+                Connected: action.payload
             };
             break;
             default:

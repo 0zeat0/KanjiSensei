@@ -7,7 +7,9 @@ import Hiragana from "./reducers/HiraganaReducer";
 import Katakana from "./reducers/KatakanaReducer";
 import Kanji from "./reducers/KanjiReducer";
 import KanaInfo from "./reducers/KanaInfoReducer";
+import KanjiInfo from "./reducers/KanjiInfoReducer";
 import ReadingTest from "./reducers/ReadingTestReducer";
+import Search from "./reducers/SearchReducer";
 
 export default createStore(
     combineReducers({
@@ -15,9 +17,11 @@ export default createStore(
         AnimatedCharacter,
         Hiragana,
         Katakana,
+        Kanji,
         KanaInfo,
+        KanjiInfo,
         ReadingTest,
-        Kanji
+        Search
     }),
     {},
     applyMiddleware(thunk)

@@ -1,38 +1,80 @@
 import React, {Component} from 'react';
+import { View, Text, StyleSheet } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 
 
 import {connect} from "react-redux";
-import { hiraganaInit } from "../actions/DatabaseActions";
-import { SVGInit } from "../actions/DatabaseActions";
+
+import {vw} from "../utilities/Responsiveness";
+import {vh} from "../utilities/Responsiveness";
+
+import { dbLoad } from "../actions/DatabaseActions";
+import { setConnected } from "../actions/DatabaseActions";
 
 
 class Database extends Component {
 
   componentDidMount(){
 
-    this.props.hiraganaInit();
-    this.props.SVGInit();
+    this.CheckConnectivity();
+
+     this.props.dbLoad();
 
   }
 
 
-  componentDidUpdate(){
+  componentWillUnmount(){
+    this.unsubscribe();
+ }
 
-     // console.log( this.props.Database);
 
+  CheckConnectivity(){
+    this.unsubscribe = NetInfo.addEventListener(state => {
+      this.props.setConnected(state.isConnected);
+    });
   }
 
   
 
 
   render(){
-
+    if(this.props.Database.Connected){
       return (
         this.props.children
       );
+    } else{
+      return (
+        <View style={styles.View}>
+          <Text style={styles.Text}>Internet connection is required.</Text>
+        </View>
+      );
+    }
+
   }
 
 }
+
+
+const styles = StyleSheet.create({
+  View: {
+      width: "100%",
+      flex:1,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: vw(10),
+  },
+  Text: {
+      fontSize: vw(12),
+      color: "#4b4b4b",
+      fontFamily: "NotoSansJP-Regular",
+      lineHeight: vh(10),
+      letterSpacing: vw(-0.2),
+      textAlign:"center"
+  }
+
+});
+
 
 
 const mapStateToProps = (state) => {
@@ -43,12 +85,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hiraganaInit: () => {
-      dispatch(hiraganaInit());
+    dbLoad: () => {
+      dispatch(dbLoad());
+    }, 
+    setConnected: (connected) => {
+      dispatch(setConnected(connected));
     },
-    SVGInit: () => {
-      dispatch(SVGInit());
-    }
   };
 };
 

@@ -7,47 +7,19 @@ import {
 } from 'react-native';
 
 import Svg, {
-    Circle,
-    Ellipse,
-    G,
-    Text,
-    TSpan,
-    TextPath,
     Path,
-    Polygon,
-    Polyline,
-    Line,
-    Rect,
     Use,
-    Image,
-    Symbol,
     Defs,
-    LinearGradient,
-    RadialGradient,
-    Stop,
     ClipPath,
-    Pattern,
-    Mask,
-    SvgCss 
   } from 'react-native-svg';
 
 
 import {connect} from "react-redux";
 
 
-import { Actions } from 'react-native-router-flux';
-
 import {vw} from "../utilities/Responsiveness";
 import {vh} from "../utilities/Responsiveness";
 
-import {ReadingIcon, WritinggIcon} from '../../assets/Icons';
-
-import Link from '../components/Link';
-import ScrollContainer from '../components/ScrollContainer';
-import AppContainer from '../components/AppContainer';
-
-import thunk from 'redux-thunk';
-import { Value } from 'react-native-reanimated';
 
 import { animatedCharacterInit } from "../actions/AnimatedCharacterActions";
 import { animatedCharacterCount } from "../actions/AnimatedCharacterActions";
@@ -77,7 +49,10 @@ class AnimatedCharacter extends Component {
     Play(){
         this.Reset();
         if(this.props.object != undefined){
+          //console.log(this.props.svg);
             for(let i = 0; i < this.props.count; i++){
+                let delay = i==0?0:this.props.svg.paths[i].length*25;
+                //console.log(delay);
                 this.Draw("id"+i, this.props.svg.delays[i]);
             }
         }

@@ -13,6 +13,7 @@ import { kanjiLoad } from "../actions/KanjiActions";
 import {CustomSetIcon, KatakanaIcon} from '../../assets/Icons';
 
 import Link from '../components/Link';
+import KanjiSetItem from '../components/KanjiSetItem';
 import ScrollContainer from '../components/ScrollContainer';
 import AppContainer from '../components/AppContainer';
 
@@ -20,39 +21,47 @@ import AppContainer from '../components/AppContainer';
 class KanjiSet extends Component {
 
   componentDidMount() {
-    let i = this.props.set;
-    let setStart = i>1?i*10+1-10:i;
-    let setEnd = i*10;
-    if(this.props.level>0){
-      this.props.navigation.setParams({
-        title: "JLPT N"+this.props.level+" "+setStart+"-"+setEnd,
-      });
-    } else {
-      this.props.navigation.setParams({
-        title: "Other"+" "+setStart+"-"+setEnd,
-      });
-    }
+    // let i = this.props.set;
+    // let setStart = i>1?i*10+1-10:i;
+    // let setEnd = i*10;
+    // if(this.props.level>0){
+    //   this.props.navigation.setParams({
+    //     title: "JLPT N"+this.props.level+" "+setStart+"-"+setEnd,
+    //   });
+    // } else {
+    //   this.props.navigation.setParams({
+    //     title: "Other"+" "+setStart+"-"+setEnd,
+    //   });
+    // }
     this.props.kanjiLoad(this.props.level, this.props.set);
  }
 
 
  componentDidUpdate(){
-   console.log(this.props.Kanji);
+   //console.log(this.props.Kanji);
  }
 
   render(){
 
-    let sets = [];
 
-    for(let i = 1; i<6; i++){
-      sets.push(<Link key={"set"+i} text="Set 1-10" icon={CustomSetIcon()} background="#e3e3e3" color="#a4a4a4" href={Actions.push("JLPTSet", {level:this.props.level, set:i})}></Link>);
+    let items = [];
+
+    if(this.props.Kanji){
+      for(let i = 0; i<this.props.Kanji.docs.length; i++){
+        let data = this.props.Kanji.docs[i].data();
+        items.push(<KanjiSetItem key={"item"+i} index={i+1} data={data} onPress={()=>{
+          Actions.push("KanjiInfo", {
+            unicode: data.unicode,
+            useNav: true,
+            data: this.props.Kanji.docs});
+        }}></KanjiSetItem>);
+      }
     }
 
     return (
       <AppContainer>
         <ScrollContainer>
-            {/* <Link text="Set 1-10" icon={CustomSetIcon()} background="#e3e3e3" color="#a4a4a4" href={Actions.push("JLPT", {level:0})}></Link> */}
-            {this.props.Kanji?<Text>{this.props.Kanji.docs[0].data().japanese}</Text>:null}
+            {this.props.Kanji?items:null}
         </ScrollContainer>
       </AppContainer>
     );

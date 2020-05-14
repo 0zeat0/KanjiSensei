@@ -212,8 +212,6 @@ class KanaReadingTest extends Component {
     if(this.props.ShouldShowAnswer==false){
       this.props.testSetShowAnswer(true);
       setTimeout(()=>{
-
-
         if( this.props.ReadingTest.QuestionNumber+1> this.props.ReadingTest.NumberOfQuestions){
               this.clearAllTimers();
               this.props.testSetFinished(true);

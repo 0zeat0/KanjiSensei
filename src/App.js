@@ -21,12 +21,14 @@ import Kana from './scenes/Kana';
 import Kanji from './scenes/Kanji';
 import JLPTLevel from './scenes/JLPTLevel';
 import KanjiSet from './scenes/KanjiSet';
+import KanjiInfo from './scenes/KanjiInfo';
 import Hiragana from './scenes/Hiragana';
 import Katakana from './scenes/Katakana';
 import KanaTestSelect from './scenes/KanaTestSelect';
 import KanaInfo from './scenes/KanaInfo';
 import KanaReadingTest from './scenes/KanaReadingTest';
 import TestResults from './scenes/TestResults';
+import Search from './scenes/Search';
 
 import Icon from "./components/Icon";
 import Button from "./components/Button";
@@ -125,16 +127,25 @@ class App extends Component {
                  <Scene 
                       key="JLPTLevel" 
                       component={JLPTLevel} 
-                      title="Kanji"  
+                      title="Kanji level"  
                       navigationBarStyle={styles.navBar} 
                       titleStyle={styles.title} 
                       renderLeftButton={<NavigationButton isHomeButton={false} />}
                       renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
-                  <Scene 
+                <Scene 
                       key="KanjiSet" 
                       component={KanjiSet} 
-                      title="Kanji"  
+                      title="Kanji set"  
+                      navigationBarStyle={styles.navBar} 
+                      titleStyle={styles.title} 
+                      renderLeftButton={<NavigationButton isHomeButton={false} />}
+                      renderRightButton={<NavigationButton isHomeButton={true} />}
+                />
+                 <Scene 
+                      key="KanjiInfo" 
+                      component={KanjiInfo} 
+                      title="Kanji info"  
                       navigationBarStyle={styles.navBar} 
                       titleStyle={styles.title} 
                       renderLeftButton={<NavigationButton isHomeButton={false} />}
@@ -193,6 +204,15 @@ class App extends Component {
                     titleStyle={styles.title} 
                     renderLeftButton={<NavigationButton isHomeButton={false} isKanaInfoButton={true} />}
                     renderRightButton={<NavigationButton isHomeButton={true} isKanaInfoButton={true} />}
+                />
+                 <Scene 
+                    key="Search" 
+                    component={Search} 
+                    title="Search"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
               </Scene>
             </Router>

@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 
 
 export function kanjiLoad(level, set) {
-    console.log(level, set);
+    //console.log(level, set);
     return dispatch => {
         firestore()
         .collection('Kanji')

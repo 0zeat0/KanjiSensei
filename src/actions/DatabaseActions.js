@@ -1,44 +1,44 @@
 import firestore from '@react-native-firebase/firestore';
 
-export function hiraganaInit() {
+export function dbLoad() {
     return dispatch => {
         firestore()
         .collection('Hiragana')
-        .onSnapshot((QuerySnapshot)=>{
-            dispatch({
-                type: "HIRAGANA_INIT",
-                payload: true
-            });
-        }, (error)=>{
-            console.log("Error:" + error);
-            dispatch({
-                type: "HIRAGANA_INIT",
-                payload: false
+        .onSnapshot(()=>{
+            firestore()
+            .collection('Katakana')
+            .onSnapshot(()=>{
+                firestore()
+                .collection('Kanji')
+                .onSnapshot(()=>{
+                    firestore()
+                    .collection('SVG')
+                    .onSnapshot(()=>{
+                        firestore()
+                        .collection('Examples')
+                        .onSnapshot(()=>{
+                            dispatch({
+                                type: "DATABASE_SET_LOADED",
+                                payload: true
+                            });
+                        });
+                    });
+                });
             });
         });
     };
 }
 
 
-export function SVGInit() {
+
+export function setConnected(connected) {
     return dispatch => {
-        firestore()
-        .collection('SVG')
-        .onSnapshot((QuerySnapshot)=>{
             dispatch({
-                type: "SVG_INIT",
-                payload: true
+                type: "DATABASE_SET_CONNECTED",
+                payload: connected
             });
-        }, (error)=>{
-            console.log("Error:" + error);
-            dispatch({
-                type: "SVG_INIT",
-                payload: false
-            });
-        });
     };
 }
-
 
 
 

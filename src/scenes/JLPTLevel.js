@@ -16,15 +16,15 @@ class JLPTLevel extends Component {
 
 
   componentDidMount() {
-    if(this.props.level>0){
-      this.props.navigation.setParams({
-        title: "JLPT N"+this.props.level,
-      });
-    } else {
-      this.props.navigation.setParams({
-        title: "Other",
-      });
-    }
+    // if(this.props.level>0){
+    //   this.props.navigation.setParams({
+    //     title: "JLPT N"+this.props.level,
+    //   });
+    // } else {
+    //   this.props.navigation.setParams({
+    //     title: "Other",
+    //   });
+    // }
  }
 
 

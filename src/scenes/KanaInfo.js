@@ -12,6 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import Tts from 'react-native-tts';
 
 import {vw} from "../utilities/Responsiveness"; 
+import {vh} from "../utilities/Responsiveness"; 
 
 import {PlayIcon, SoundIcon, CustomSetIcon} from '../../assets/Icons';
 
@@ -35,7 +36,7 @@ import thunk from 'redux-thunk';
 class KanaInfo extends Component {
 
   componentDidMount(){
-    
+
     //console.log(this.props);
     //this.props.kanaClear();
     //console.log(this.props);
@@ -53,7 +54,6 @@ class KanaInfo extends Component {
 
     this.props.kanaLoadData(this.props.unicode, this.props.kana);
     //this.props.setUpdate(true);
-  
   }
 
 
@@ -109,10 +109,6 @@ class KanaInfo extends Component {
     //   this.props.otherKanaLoad(otherUnicode, otherType);
     // }
     
-
-  
-  
-
   }
 
 
@@ -151,7 +147,7 @@ class KanaInfo extends Component {
      if(this.props.useNav){
       characterDoc = this.props.data.find(element => element.data().unicode == this.props.unicode);
       isFirst = this.props.data.indexOf(characterDoc)==0;
-      isLast = this.props.data.indexOf(characterDoc)==this.props.data.length;
+      isLast = this.props.data.indexOf(characterDoc)==this.props.data.length-1;
       if(!isFirst){
         Prev = this.props.data[this.props.data.indexOf(characterDoc)-1].data();
       }
@@ -170,8 +166,8 @@ class KanaInfo extends Component {
           <View style={styles.RoundButtonsList}>
             <RoundButton fill="#99c3c3" icon={SoundIcon()} onPress={() => {this.playSound(this.props.Kana.japanese);}} />  
             <RoundButton fill="#abd9aa" icon={PlayIcon()} onPress={() => {this.playChild();}} />  
-            <RoundButton fill="#e1b6b6" icon={CustomSetIcon()} />  
           </View>
+          <Text style={styles.Header}>Info:</Text>
           <View style={styles.InfoList}>
             <InfoItem text="Romaji:" value={this.props.Kana.romaji} isLink={false} />
             {this.props.OtherKana?<InfoItem 
@@ -268,6 +264,15 @@ const styles = StyleSheet.create({
   SquareButtonsList: {
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  Header: {
+    top: vw(-14),
+    fontSize: vw(6),
+    color: "#4b4b4b",
+    fontFamily: "NotoSansJP-Regular",
+    lineHeight: vh(5),
+    letterSpacing: vw(0.2),
+    margin: vw(1)
   }
 
   });
