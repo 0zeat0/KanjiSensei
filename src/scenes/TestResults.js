@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
   View,
-  SafeAreaView,
   Text
 } from 'react-native';
 
@@ -12,10 +10,6 @@ import { Actions } from 'react-native-router-flux';
 import {vw} from "../utilities/Responsiveness";
 import {vh} from "../utilities/Responsiveness";
 
-import {ReadingIcon, WritingIcon} from '../../assets/Icons';
-
-import Link from '../components/Link';
-import ScrollContainer from '../components/ScrollContainer';
 import SquareButton from '../components/SquareButton';
 import AppContainer from '../components/AppContainer';
 
@@ -52,7 +46,6 @@ class TestResults extends Component {
 
 
 
-    //console.log(this.props);
     return (
       <AppContainer>
         <View style={styles.Result}>
@@ -69,7 +62,7 @@ class TestResults extends Component {
         </View>
         <View style={styles.SquareButtonsList}>
           <SquareButton shouldFlex={1} text="FINISH" onPress={()=>{
-            Actions.popTo("Hiragana"||"Katakana");
+            Actions.popTo(this.props.sceneToPop);
           }} />
           <SquareButton shouldFlex={1} text="REPEAT" onPress={()=>{
              Actions.pop();

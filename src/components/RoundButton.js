@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  View
+  StyleSheet
 } from 'react-native';
 
 

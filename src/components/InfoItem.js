@@ -1,21 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, cloneElement } from 'react';
 import {
   StyleSheet,
-  ScrollView,
   View,
   Text
 } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
-
-
-
-
-import {connect} from "react-redux";
-
-
-import { kanaClear } from "../actions/KanaInfoActions";
-import { setNavigation } from "../actions/KanaInfoActions";
 
 
 import {vw} from "../utilities/Responsiveness";
@@ -26,37 +14,46 @@ import Button from '../components/Button';
 
 class InfoItem extends Component {
 
-  
   render(){
-
 
     const styles = StyleSheet.create({
         item: {
+            flex: 1,
             width: "100%",
-            height: vh(6.5),
             backgroundColor: "#f6f6f6",
             borderRadius: vw(8),
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "center",
-            padding: vw(3),
-            margin: vw(0.8)
+            padding: vw(2),
+            margin: vw(0.8),
         },
         text: {
-            margin: vw(2),
+            marginLeft: vw(2),
             fontSize: vw(6),
             color: "#4b4b4b",
             fontFamily: "NotoSansJP-Regular",
             lineHeight: vh(5),
             letterSpacing: vw(-0.2)
         },
-        value: {
-            margin: vw(2),
-            fontSize: this.props.isJapanese?vw(6.5):vw(6),
-            color: this.props.isLink?"#72c8b9":"#4b4b4b",
-            fontFamily: this.props.isJapanese?"NotoSerifJP-Regular":"NotoSansJP-Regular",
-            lineHeight: vh(5),
-            letterSpacing: vw(-0.2)
+        comma: {
+          fontSize: vw(6),
+          color: "#4b4b4b",
+          fontFamily: "NotoSansJP-Regular",
+          lineHeight: vh(5),
+          letterSpacing: vw(-0.2)
+        },
+        Button:{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexWrap: "wrap",
+          flex: 1,
+        },
+        Container:{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
         }
         
 
@@ -64,13 +61,45 @@ class InfoItem extends Component {
       });
 
 
+      let isLink = false;
+      if(this.props.isLink!=undefined){
+        isLink = this.props.isLink;
+      }
+
+      let values = [];
+      if(this.props.values!=undefined){
+        this.props.values.forEach((value, index)=> {
+          if(index==this.props.values.length-1){
+            values.push(
+              cloneElement(value, {key:this.props.id+index})
+            );
+          }
+          if(index!=this.props.values.length-1){
+            values.push(
+              <View key={this.props.id+index+"container"} style={styles.Container}>
+                {cloneElement(value, {key:this.props.id+index})}
+                <Text key={this.props.id+"#"+index} style={styles.comma}>, </Text>
+              </View>
+            );
+          }
+
+        });
+      } else {
+        values.push(
+          cloneElement(this.props.value, {key:this.props.id+0})
+        );
+      }
+
+
+
       return (
         <View style={styles.item}>
-          <Text style={styles.text}>{this.props.text}</Text>
           <Button 
-            isActive={this.props.isLink} 
+            parentStyle={styles.Button}
+            isActive={isLink} 
             onPress={this.props.onPress}>
-            <Text style={styles.value}>{this.props.value}</Text>
+            <Text style={styles.text}>{this.props.text}</Text>
+            {values}
           </Button>
         </View>
       );

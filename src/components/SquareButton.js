@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  Text,
-  View
+  Text
 } from 'react-native';
 
 
@@ -23,7 +21,7 @@ class SquareButton extends Component {
         flex: 0 || this.props.shouldFlex,
         borderRadius: vw(3),
         backgroundColor: "#c9e6e1",
-        padding: vw(3),
+        padding: vw(2),
         marginLeft: vw(5),
         marginRight: vw(5),
         marginTop: vw(3),
@@ -32,10 +30,10 @@ class SquareButton extends Component {
         justifyContent: "center"
       },
       ButtonText: {
-        fontSize: vw(7),
+        fontSize: vw(6),
         color: "#637572",
         fontFamily: "NotoSansJP-Regular",
-        lineHeight: vh(6),
+        lineHeight: vh(5),
         letterSpacing: vw(-0.2)
     }
     });
@@ -48,6 +46,7 @@ class SquareButton extends Component {
       <Button
         parentStyle={styles.SquareButton}
         onPress={this.props.onPress}
+        cooldown={this.props.cooldown}
         >
         <Text style={styles.ButtonText}>{this.props.text}</Text>
       </Button>

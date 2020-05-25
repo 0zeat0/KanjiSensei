@@ -18,7 +18,6 @@ import {connect} from "react-redux";
 
 
 import {vw} from "../utilities/Responsiveness";
-import {vh} from "../utilities/Responsiveness";
 
 
 import { animatedCharacterInit } from "../actions/AnimatedCharacterActions";
@@ -35,32 +34,44 @@ class AnimatedCharacter extends Component {
     constructor(props) {
         super(props);
         this.Play = this.Play.bind(this);
+        this.Update = this.Update.bind(this);
      }
 
     componentDidMount(){
         this.props.setPlay(this.Play);
+        this.props.setUpdate(this.Update);
         this.Init();
     }
 
     componentDidUpdate(){
-        this.Play();
+        //this.Init();
+       
+        //this.Play();
     }
 
     Play(){
         this.Reset();
         if(this.props.object != undefined){
-          //console.log(this.props.svg);
             for(let i = 0; i < this.props.count; i++){
-                let delay = i==0?0:this.props.svg.paths[i].length*25;
-                //console.log(delay);
-                this.Draw("id"+i, this.props.svg.delays[i]);
+                this.Draw(i);
             }
         }
+    }
+
+    Update(){
+
+      setTimeout(()=>{
+        this.Init();
+      }, 0);
+
     }
 
     Init(){
         this.props.animatedCharacterCount(this.props.svg);
         this.props.animatedCharacterInit(this.props.svg);
+        setTimeout(()=>{
+          this.Play();
+        }, 500);
     }
 
 
@@ -70,10 +81,16 @@ class AnimatedCharacter extends Component {
         }
     }
 
-    Draw(id, delay){
+    Draw(i){
+      let id = "id"+i;
+      let speedMult = 1.6;
+      let delayMult = 0.7;
+  
+      let delay = (this.props.svg.delays[i]*speedMult*delayMult) - (this.props.svg.delays[0]*speedMult*delayMult);
+    
         Animated.timing(this.props.object[id],{
           toValue:0,
-          duration:3000,
+          duration:800*speedMult,
           useNativeDriver:true,
           easing: Easing.quad,
           delay: delay
@@ -81,6 +98,7 @@ class AnimatedCharacter extends Component {
       }
 
   render(){
+
 
     return (
         <View style={styles.AnimatedCharacter}>
@@ -137,10 +155,9 @@ class AnimatedCharacter extends Component {
 
 const styles = StyleSheet.create({
     AnimatedCharacter: {
-    top: vw(-14),
-    width: vw(50),
-    height: vw(50),
-    padding: vw(0),
+    width: vw(34),
+    height: vw(34),
+    marginBottom: vw(2),
     flexDirection: "column",
     alignItems: "center",
     justifyContent:  "center"

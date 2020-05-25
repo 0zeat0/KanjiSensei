@@ -10,6 +10,8 @@ import KanaInfo from "./reducers/KanaInfoReducer";
 import KanjiInfo from "./reducers/KanjiInfoReducer";
 import ReadingTest from "./reducers/ReadingTestReducer";
 import Search from "./reducers/SearchReducer";
+import CustomSets from "./reducers/CustomSetsReducer";
+import Button from "./reducers/ButtonReducer";
 
 export default createStore(
     combineReducers({
@@ -21,7 +23,9 @@ export default createStore(
         KanaInfo,
         KanjiInfo,
         ReadingTest,
-        Search
+        Search,
+        CustomSets,
+        Button
     }),
     {},
     applyMiddleware(thunk)

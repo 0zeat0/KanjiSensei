@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View
+  StyleSheet
 } from 'react-native';
 
 
@@ -38,22 +36,12 @@ class NavigationButton extends Component {
 
 
   action(){
-
-    //console.log(this.props);
-
     
-
     if(this.props.isHomeButton){
         Actions.popTo("Home");
-    } else if(!this.props.isHomeButton){
-      if(this.props.isTestResultButton){
-        Actions.popTo("Hiragana"||"Katakana");
-      } else {
+    } else {
         Actions.pop();
       }
-       
-    }
-
   }
 
 

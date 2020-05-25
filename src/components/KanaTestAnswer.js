@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  Text,
-  View
+  Text
 } from 'react-native';
 
 
@@ -12,9 +11,6 @@ import {vw} from "../utilities/Responsiveness";
 import {vh} from "../utilities/Responsiveness";
 
 import Button from "./Button";
-import Icon from "./Icon";
-
-import {RigthIcon} from '../../assets/Icons';
 
 class KanaTestAnswer extends Component {
   render(){
@@ -38,14 +34,11 @@ class KanaTestAnswer extends Component {
         height: vw(25),
         backgroundColor: color,
         borderRadius: vw(3),
-        //padding: vh(2.5),
-        //margin: vh(0.8),
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center"
       },
       textEng: {
-        //backgroundColor: "#ccc",
         fontSize: vw(10),
         color: "#4b4b4b",
         fontFamily: "NotoSansJP-Regular",
@@ -53,7 +46,6 @@ class KanaTestAnswer extends Component {
         letterSpacing: vw(-0.2)
       },
       textJap: {
-        //backgroundColor: "#ccc",
         fontSize: vw(10),
         color: "#4b4b4b",
         fontFamily: "NotoSerifJP-Regular",

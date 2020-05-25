@@ -1,11 +1,20 @@
 const KanjiReducer = (state = {
-    Data: null
+    Data: null,
+    Loaded: false
 }, action) => {
     switch (action.type) {
         case "KANJI_LOAD":
             state = {
                 ...state,
-                Data: action.payload
+                Data: action.payload,
+                Loaded: true
+            };
+            break;
+        case "KANJI_CLEAR":
+            state = {
+                ...state,
+                Data: null,
+                Loaded: false
             };
             break;
             default:

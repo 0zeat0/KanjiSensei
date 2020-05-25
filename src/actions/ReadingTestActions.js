@@ -1,10 +1,9 @@
 
-
 export function testInit(data) {
 
     let payload = [];
     for(let i = 0; i < (data.length); i++){
-        if(data[i].data().isEmpty==false){
+        if(data[i].data.isEmpty!=true){
             payload.push(data[i]);
         }
     }
@@ -41,7 +40,7 @@ export function testSetup(data, indexToDelete, questionItem, answers, answersTyp
         QuestuonItem: questionItem,
         NumberOfQuestions: numberOfQuestions
     }
-    //console.log(payload);
+
 
     return dispatch => {
             dispatch({

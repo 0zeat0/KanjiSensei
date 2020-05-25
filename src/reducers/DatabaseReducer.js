@@ -1,12 +1,14 @@
 const DatabaseReducer = (state = {
-    Loaded: false,
-    Connected: true
+    Loaded: true,
+    Connected: true,
+    ShouldRequestInternet: false
 }, action) => {
     switch (action.type) {
         case "DATABASE_SET_LOADED":
             state = {
                 ...state,
-                Loaded: action.payload
+                Loaded: action.payload,
+                ShouldRequestInternet: false
             };
             break;
         case "DATABASE_SET_CONNECTED":

@@ -1,14 +1,8 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  SafeAreaView
-} from 'react-native';
+
 
 import { Actions } from 'react-native-router-flux';
 
-import {vw} from "../utilities/Responsiveness";
 
 import {ReadingIcon, WritingIcon} from '../../assets/Icons';
 

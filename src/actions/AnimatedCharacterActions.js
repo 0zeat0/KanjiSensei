@@ -1,11 +1,4 @@
-import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Animated,
-  Easing
-} from 'react-native';
-
+import { Animated } from 'react-native';
 
 export function animatedCharacterCount(svg) {
     const count = svg.paths.length;

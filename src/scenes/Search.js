@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
   View,
-  SafeAreaView,
   Text,
-  TextInput 
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -23,33 +22,30 @@ import {ShearchIcon} from '../../assets/Icons';
 import { setQuery } from "../actions/SearchActions";
 import { search } from "../actions/SearchActions";
 import { setSearchTimer } from "../actions/SearchActions";
+import { clearData } from "../actions/SearchActions";
+import { setIsSearching } from "../actions/SearchActions";
 
 import AppContainer from '../components/AppContainer';
 import ScrollContainer from '../components/ScrollContainer';
-import SquareButton from '../components/SquareButton';
 import KanjiSetItem from '../components/KanjiSetItem';
 
 class Search extends Component {
 
 
-
-  componentDidMount(){
-  
-  }
-
-
-  componentDidUpdate(){
-    //console.log(this.props.SearchTimer);
-  }
-
-
-
   componentWillUnmount(){
     clearInterval(this.Timer);
+    this.props.clearData();
+    this.props.setQuery("");
+    this.props.search("");
+    this.props.setIsSearching(false);
   }
 
-
+  
   onChangeText(text){
+
+    this.props.clearData();
+    this.props.setIsSearching(true);
+
     clearInterval(this.Timer);
     this.Timer = setInterval(
       () => this.Tick(),
@@ -58,10 +54,13 @@ class Search extends Component {
     this.props.setQuery(text);
   }
 
+
+
   Tick(){
     if(this.props.SearchTimer!=0){
-      this.props.setSearchTimer(this.props.SearchTimer-1);
+      this.props.setSearchTimer(this.props.SearchTimer-2);
     } else{
+      this.props.setIsSearching(true);
       clearInterval(this.Timer);
       this.props.search(this.props.Query);
       this.props.setSearchTimer(10);
@@ -91,9 +90,7 @@ class Search extends Component {
             <Icon fill="#4b4b4b" svg={ShearchIcon()} width={vw(5)} height={vw(5)} padding={vh(0)} margin={vw(2)}/>
             <TextInput
               style={styles.TextInput}
-              onChangeText={text => this.onChangeText(text)}
-              // inlineImageLeft="search"
-              // inlineImagePadding={vw(5)}
+              onChangeText={(text) => {this.onChangeText(text);}}
               value={this.props.Query}
               placeholder="Search..."
             />
@@ -101,6 +98,9 @@ class Search extends Component {
               <Text style={styles.SearchButtonText}>Clear</Text>
             </Button>
           </View>
+          {this.props.IsSearching?<View style={styles.ActivityIndicatorContainer}>
+            <ActivityIndicator size={50} color="#72c8b9" />
+          </View>:null}
           {(renderNoResult)?<View style={styles.NoResult}><Text style={styles.NoResultText}>{"Sorry, no match found."}</Text></View>:null}
           <ScrollContainer shouldNotCenter={true}>
           {this.props.Data.slice(0, 20).map((data, i) => (
@@ -126,12 +126,14 @@ const styles = StyleSheet.create({
       justifyContent: "space-between",
       alignItems: "center",
       paddingTop: vw(2),
-      paddingBottom: vw(2)
+      paddingBottom: vw(2),
+      borderTopLeftRadius: vw(7),
+      borderTopRightRadius: vw(7)
+
   },
   TextInput: {
     height: vw(12), 
     flex:1,
-    //marginRight: vw(2),
     borderColor: '#4b4b4b', 
     borderWidth: vw(0.2),
     borderRadius: vw(1)
@@ -164,6 +166,12 @@ const styles = StyleSheet.create({
     textAlign: "center"
     
   },
+  ActivityIndicatorContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: vw(8),
+  },
 
   });
   
@@ -175,7 +183,8 @@ const mapStateToProps = (state) => {
     Query: state.Search.Query,
     Data: state.Search.Data,
     SearchTimer: state.Search.SearchTimer,
-    Found: state.Search.Found
+    Found: state.Search.Found,
+    IsSearching: state.Search.IsSearching
   };
 };
 
@@ -189,6 +198,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     setSearchTimer: (time) => {
       dispatch(setSearchTimer(time));
+    },
+    clearData: () => {
+      dispatch(clearData());
+    },
+    setIsSearching: (is) => {
+      dispatch(setIsSearching(is));
     },
 
   };

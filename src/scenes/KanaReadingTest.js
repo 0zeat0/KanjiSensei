@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  View,
-  SafeAreaView,
-  Text
+  View
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -30,9 +27,8 @@ import Icon from '../components/Icon';
 import Button from '../components/Button';
 import KanaTestAnswer from '../components/KanaTestAnswer';
 import TestStatusBar from '../components/TestStatusBar';
-import TestQuestion from '../components/TestQuestion';
+import KanaTestQuestion from '../components/KanaTestQuestion';
 import SquareButton from '../components/SquareButton';
-import ScrollContainer from '../components/ScrollContainer';
 import AppContainer from '../components/AppContainer';
 
 
@@ -47,32 +43,7 @@ class KanaReadingTest extends Component {
         () => this.TimeTick(),
         1000
       );
-      // this.ResponseTimer = setInterval(
-      //   () => this.ResponseTick(),
-      //   1000/10
-      // );
     },500);
-  }
-
-  componentDidUpdate(){
-
-    //console.log(this.props.Time);
-
-    // if(this.props.IsFinished==true){
-    //   this.props.testInit(this.props.data);
-    //   setTimeout(()=>{
-    //     this.setupTestIteration();
-    //     this.TimeTimer = setInterval(
-    //       () => this.TimeTick(),
-    //       1000
-    //     );
-    //     this.props.testSetFinished(false);
-    //   },500);
-    // }
-
-
-    //console.log(this.props);
-
   }
 
 
@@ -100,7 +71,6 @@ class KanaReadingTest extends Component {
 
 
   clearResponseTimer(){
-    //console.log("clear");
     clearInterval(this.ResponseTimer);
   }
 
@@ -118,17 +88,14 @@ class KanaReadingTest extends Component {
 
 
   TimeTick() {
-    //console.log(this.props.Time);
     if(!this.props.IsPaused){
       this.props.testUpdateTime(this.props.Time);
     }
   }
 
   ResponseTick() {
-    //console.log(this.props.ResponseTime);
     if(!this.props.IsPaused){
       if(this.props.ResponseTime.toFixed(1)==10){
-        //this.clearResponseTimer();
         this.next(false);
       } else {
         this.props.testUpdateResponseTime(this.props.ResponseTime);
@@ -138,39 +105,46 @@ class KanaReadingTest extends Component {
   
 
   setupTestIteration(){
-    //console.log(this.props);
     let Index = this.RandomInt(0,this.props.Data.length);
-    let Item = this.props.Data[Index].data();
+    let Item = this.props.Data[Index].data;
     let AnswersType = this.RandomInt(0,2)==1?"jap":"eng";
     let Answers = [];
     let PossibleAnswers = [];
     let NumberOfQuestions = 1;
     for(let i = 0; i < this.props.data.length; i++){
-      if(this.props.data[i].data().isEmpty==false){
+      if(this.props.data[i].data.isEmpty==false){
         PossibleAnswers.push(this.props.data[i]);
       }
     }
     NumberOfQuestions = PossibleAnswers.length;
     let impossibleIndex = PossibleAnswers.indexOf(this.props.Data[Index]);
-    //console.log(impossibleIndex);
+
     PossibleAnswers.splice(impossibleIndex, 1);
 
     for(let i = 0; i<6; i++){
+
+      let RandomIntTemp = this.RandomInt(0, PossibleAnswers.length);
+
       if(AnswersType=="eng"){
         Answers.push(
           {
-            value: PossibleAnswers[this.RandomInt(0, PossibleAnswers.length)].data().romaji,
+            value: PossibleAnswers[RandomIntTemp].data.romaji,
             isCorect: false
           }
         );
       } else if(AnswersType=="jap"){
         Answers.push(
           {
-            value: PossibleAnswers[this.RandomInt(0, PossibleAnswers.length)].data().japanese,
+            value: PossibleAnswers[RandomIntTemp].data.japanese,
             isCorect: false
           }
         );
       }
+
+
+      let deleteIndex = PossibleAnswers.indexOf(PossibleAnswers[RandomIntTemp]);
+      PossibleAnswers.splice(deleteIndex, 1);
+
     }
 
     if(AnswersType=="eng"){
@@ -192,33 +166,24 @@ class KanaReadingTest extends Component {
     setTimeout(()=>{
       this.props.testSetup(this.props.Data, Index, Item, Answers, AnswersType, NumberOfQuestions);
     },0);
-
-    //this.props.testSetup(this.props.Data, Index, Item, Answers, AnswersType, NumberOfQuestions);
-    //console.log(Answers);
-   // setTimeout(()=>{
-      // this.ResponseTimer = setInterval(
-      //   () => this.ResponseTick(),
-      //   1000/10
-      // );
-   // },0);
-    
-  
+ 
   }
 
 
   next(isCorect){
     this.clearResponseTimer();
-    //console.log(isCorect);
     if(this.props.ShouldShowAnswer==false){
       this.props.testSetShowAnswer(true);
       setTimeout(()=>{
         if( this.props.ReadingTest.QuestionNumber+1> this.props.ReadingTest.NumberOfQuestions){
               this.clearAllTimers();
               this.props.testSetFinished(true);
+              let sceneToPop = this.props.data[0].data.type[0].toUpperCase()+this.props.data[0].data.type.substring(1);
              Actions.push("TestResults", {
+                sceneToPop: sceneToPop,
                numberOfQuestions: this.props.ReadingTest.NumberOfQuestions,
-               answeredQuestions: this.props.ReadingTest.QuestionNumber,
-               corectAnswers: this.props.ReadingTest.CorectAnswers,
+               answeredQuestions: this.props.ReadingTest.QuestionNumber+1,
+               corectAnswers: this.props.ReadingTest.CorectAnswers+1,
                wrongAnswers: this.props.ReadingTest.WrongAnswers,
                time: this.props.ReadingTest.Time,
                responseTimeSum: this.props.ReadingTest.ResponseTimeSum,
@@ -248,7 +213,7 @@ class KanaReadingTest extends Component {
       return (
         <AppContainer>
          <TestStatusBar currentQuestion={this.props.QuestionNumber} numberOfQuestions={this.props.NumberOfQuestions} time={this.props.ResponseTime} />
-         {this.props.QuestuonItem?<TestQuestion answersType={this.props.AnswersType} item={this.props.QuestuonItem} />:null} 
+         {this.props.QuestuonItem?<KanaTestQuestion answersType={this.props.AnswersType} item={this.props.QuestuonItem} />:null} 
           <View style={styles.Answers}>
           {this.props.Answers.map((answer, i) => {          
                   return (
@@ -264,12 +229,15 @@ class KanaReadingTest extends Component {
           </View>
           <View style={styles.SquareButtonsList}>
           <SquareButton shouldFlex={1} text="FINISH" onPress={()=>{
-              //console.log("finish");
-              //console.log(this.props);
               this.clearAllTimers();
              
               this.props.testSetFinished(true);
+
+  
+              let sceneToPop = this.props.data[0].data.type[0].toUpperCase()+this.props.data[0].data.type.substring(1);
+      
              Actions.push("TestResults", {
+               sceneToPop: sceneToPop,
                numberOfQuestions: this.props.ReadingTest.NumberOfQuestions,
                answeredQuestions: this.props.ReadingTest.QuestionNumber,
                corectAnswers: this.props.ReadingTest.CorectAnswers,
@@ -298,12 +266,17 @@ class KanaReadingTest extends Component {
           </View>
           <View style={styles.SquareButtonsList}>
           <SquareButton shouldFlex={1} text="FINISH" onPress={()=>{
-            //console.log("finish");
+   
 
               this.clearAllTimers();
-              
+
+    
               this.props.testSetFinished(true);
+
+              let sceneToPop = this.props.data[0].data.type[0].toUpperCase()+this.props.data[0].data.type.substring(1);
+
              Actions.push("TestResults", {
+               sceneToPop: sceneToPop,
                numberOfQuestions: this.props.ReadingTest.NumberOfQuestions,
                answeredQuestions: this.props.ReadingTest.QuestionNumber,
                corectAnswers: this.props.ReadingTest.CorectAnswers,
@@ -312,6 +285,7 @@ class KanaReadingTest extends Component {
                responseTimeSum: this.props.ReadingTest.ResponseTimeSum,
                restart: ()=>{this.restart();}
               });
+
           }} />
           <SquareButton shouldFlex={1} text={this.props.IsPaused==false?"PAUSE":"RESUME"} onPress={()=>{
             this.props.testTogglePause(this.props.IsPaused);
@@ -329,7 +303,6 @@ class KanaReadingTest extends Component {
 const styles = StyleSheet.create({
   Answers: {
     flex: 1,
-    //backgroundColor: "#ccc",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",

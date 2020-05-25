@@ -27,7 +27,6 @@ class TestStatusBar extends Component {
 
 const styles = StyleSheet.create({
   TestStatus: {
-    //backgroundColor: "#f6f6f6",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  SafeAreaView,
   FlatList  
 } from 'react-native';
 
@@ -23,18 +21,18 @@ class KanaContainer extends Component {
         numColumns={5}
         initialNumToRender={5}
         renderItem={({ item }) => <KanaItem  
-          key={item.data().position}
+          key={item.data.position}
           onPress={()=>{Actions.push("KanaInfo", {
-            unicode: item.data().unicode,
-            kana: item.data().type,
+            unicode: item.data.unicode,
+            kana: item.data.type,
             useNav: true,
             data: this.props.data
           });}} 
-          jap={item.data().japanese} 
-          eng={item.data().romaji} 
-          isEmpty={item.data().isEmpty} 
+          jap={item.data.japanese} 
+          eng={item.data.romaji} 
+          isEmpty={item.data.isEmpty} 
         />}
-        keyExtractor={item => item.data().position}
+        keyExtractor={item => item.data.position}
       />
     );
   }

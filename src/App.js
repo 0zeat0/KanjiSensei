@@ -8,8 +8,6 @@ import {Provider} from "react-redux";
 import { Scene, Router } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { Actions } from 'react-native-router-flux';
-
 
 import {vh} from "./utilities/Responsiveness";
 import {vw} from "./utilities/Responsiveness";
@@ -25,18 +23,17 @@ import KanjiInfo from './scenes/KanjiInfo';
 import Hiragana from './scenes/Hiragana';
 import Katakana from './scenes/Katakana';
 import KanaTestSelect from './scenes/KanaTestSelect';
+import KanjiTestSelect from './scenes/KanjiTestSelect';
 import KanaInfo from './scenes/KanaInfo';
 import KanaReadingTest from './scenes/KanaReadingTest';
+import KanjiReadingTest from './scenes/KanjiReadingTest';
+import KanjiMeaningTest from './scenes/KanjiMeaningTest';
 import TestResults from './scenes/TestResults';
 import Search from './scenes/Search';
+import CustomSets from './scenes/CustomSets';
 
-import Icon from "./components/Icon";
-import Button from "./components/Button";
 import NavigationButton from "./components/NavigationButton";
 import Database from "./components/Database";
-
-import {LeftIcon} from '../assets/Icons';
-import {HomeIcon} from '../assets/Icons';
 
 import logo from '../assets/logo.png';
 
@@ -81,9 +78,6 @@ class App extends Component {
       }
   });
 
-
-  let leftButton = <Button onPress={() => {Actions.pop();}}><Icon fill="#4b4b4b" svg={LeftIcon()} width={vw(13)} height={vw(13)} padding={vh(2)}/></Button>
-  let rightButton = <Button onPress={() => {Actions.popTo("Home");}}><Icon fill="#4b4b4b" svg={HomeIcon()} width={vw(13)} height={vw(13)} padding={vh(2)}/></Button>
 
     return (
       <Provider store={Store}>
@@ -178,13 +172,40 @@ class App extends Component {
                     renderLeftButton={<NavigationButton isHomeButton={false} />}
                     renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
+                 <Scene 
+                    key="KanjiTestSelect" 
+                    component={KanjiTestSelect} 
+                    title="Select test"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
+                />
                 <Scene 
                     key="KanaReadingTest" 
                     component={KanaReadingTest} 
                     title="Kana test"  
                     navigationBarStyle={styles.navBar} 
                     titleStyle={styles.title} 
-                    renderLeftButton={<NavigationButton isHomeButton={false} isTestButton={true} />}
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
+                />
+                <Scene 
+                    key="KanjiReadingTest" 
+                    component={KanjiReadingTest} 
+                    title="Kanji test"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
+                />
+                <Scene 
+                    key="KanjiMeaningTest" 
+                    component={KanjiMeaningTest} 
+                    title="Kanji test"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
                     renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
                 <Scene 
@@ -193,7 +214,7 @@ class App extends Component {
                     title="Test result"  
                     navigationBarStyle={styles.navBar} 
                     titleStyle={styles.title} 
-                    renderLeftButton={<NavigationButton isHomeButton={false} isTestResultButton={true} />}
+                    renderLeftButton={null}
                     renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
                 <Scene 
@@ -202,13 +223,22 @@ class App extends Component {
                     title="Kana Info"  
                     navigationBarStyle={styles.navBar} 
                     titleStyle={styles.title} 
-                    renderLeftButton={<NavigationButton isHomeButton={false} isKanaInfoButton={true} />}
-                    renderRightButton={<NavigationButton isHomeButton={true} isKanaInfoButton={true} />}
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
                 />
-                 <Scene 
+                <Scene 
                     key="Search" 
                     component={Search} 
                     title="Search"  
+                    navigationBarStyle={styles.navBar} 
+                    titleStyle={styles.title} 
+                    renderLeftButton={<NavigationButton isHomeButton={false} />}
+                    renderRightButton={<NavigationButton isHomeButton={true} />}
+                />
+                <Scene 
+                    key="CustomSets" 
+                    component={CustomSets} 
+                    title="Custom sets"  
                     navigationBarStyle={styles.navBar} 
                     titleStyle={styles.title} 
                     renderLeftButton={<NavigationButton isHomeButton={false} />}
